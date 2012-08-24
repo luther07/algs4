@@ -14,11 +14,11 @@
 
 public class PercolationStats {
 
-    static int[] tableOfCounts; // PRIVATE, SHOULD THIS BE STATIC
-    int randomFirst, randomSecond; // PRIVATE
-    Percolation experiment; // PRIVATE
-    int T; // PRIVATE, bad naming!
-    int N; // PRIVATE, bad naming!
+    static int[] tableOfCounts; // PRIVATE, SHOULD THIS BE STATIC? store thresholds
+    int randomFirst, randomSecond; // PRIVATE two random numbers
+    Percolation experiment; // PRIVATE experiment object
+    int T; // PRIVATE, bad naming! number of repititions
+    int N; // PRIVATE, bad naming! dimension of grid
 
     /*******************************************************************
      * Initializes and runs each experiment, populating a table of 
@@ -26,7 +26,7 @@ public class PercolationStats {
      *******************************************************************/
     public PercolationStats(int N, int T) {
         if ((N <= 0) || (T <= 0))
-            throw new java.lang.IllegalArgumentException();
+            throw new java.lang.IllegalArgumentException("index out of bounds");
 
         this.N = N; // ? why
         this.T = T; // ? why
@@ -35,7 +35,6 @@ public class PercolationStats {
         for (int i = 1; i <= T; i++) {
             experiment = new Percolation(N);
 
-            // Repeat until the system percolates:
             while (!experiment.percolates()) {
                 randomFirst = StdRandom.uniform(1, N + 1);
                 randomSecond = StdRandom.uniform(1, N + 1);
@@ -52,7 +51,7 @@ public class PercolationStats {
     /***************************************************************************
      * Returns the mean from the table of percolation thresholds
      ***************************************************************************/
-    public double mean() { // sample mean of percolation threshold
+    public double mean() {
         double gridSize = ((double) (N * N));
         return (StdStats.mean(tableOfCounts) / gridSize);
     }
@@ -60,13 +59,12 @@ public class PercolationStats {
     /****************************************************************************
      * Returns the sample standard deviation from the table of percolation thresholds.
      ****************************************************************************/
-    public double stddev() { // sample standard deviation
+    public double stddev() {
         double gridSize = ((double) (N * N));
         return (StdStats.stddev(tableOfCounts) / gridSize);
     }
 
-    public static void main(String[] args) { // test client, described below
-                                             // N >= 1 and T >= 1
+    public static void main(String[] args) {
                                              // You do need to deal with N = 1
                                              // If T equals 1, return Double.NaN
         int N = Integer.parseInt(args[0]); // specifies grid size

@@ -14,7 +14,7 @@
 public class Percolation {
     WeightedQuickUnionUF grid;  // grid of sites, PRIVATE
     int dimension;              // grid dimensions, PRIVATE
-    boolean[] openOrBlocked;    // stores grid open/blocked values, PRIVATE
+    boolean[] isOpen;           // stores grid open/blocked values, PRIVATE
     int count;                  // count of open sites?, PRIVATE
 
     /***********************************************************************
@@ -24,13 +24,15 @@ public class Percolation {
      ***********************************************************************/
     public Percolation(int N) { // create N-by-N grid, with all sites blocked
                                 // takes time proportional to N^2
+        if (N <1)
+            throw new java.lang.IllegalArgumentException("index out of bounds");
         dimension     = N;
         grid          = new WeightedQuickUnionUF(dimension * dimension);
-        openOrBlocked = new boolean[dimension * dimension];
+        isOpen = new boolean[dimension * dimension];
 
         // initialize grid sites to blocked
         for (int i = 0; i < (dimension * dimension); i++) {
-            openOrBlocked[i] = false;
+            isOpen[i] = false;
         }
 
         // initialize virtual top
@@ -51,10 +53,10 @@ public class Percolation {
      *********************************************************************/
     public void open(int i, int j) { // open site (row i, column j)
         if ((i < 1) || (i > dimension) || (j < 1) || (j > dimension))
-            throw new java.lang.IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException("index out of bounds");
         int gridIndex = xyTo1D(i, j);
-        if (!openOrBlocked[gridIndex]) {
-            openOrBlocked[gridIndex] = true;
+        if (!isOpen[gridIndex]) {
+            isOpen[gridIndex] = true;
             count++;
             connectToNeighbors(i, j);
         }
@@ -65,9 +67,9 @@ public class Percolation {
      **********************************************************************/
     public boolean isOpen(int i, int j) {  // is site (row i, column j) open?
         if ((i < 1) || (i > dimension) || (j < 1) || (j > dimension))
-            throw new java.lang.IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException("index out of bounds");
         int gridIndex = xyTo1D(i, j);
-        return openOrBlocked[gridIndex];
+        return isOpen[gridIndex];
     }
 
     /**********************************************************************
@@ -75,7 +77,7 @@ public class Percolation {
      **********************************************************************/
     public boolean isFull(int i, int j) {
         if ((i < 1) || (i > dimension) || (j < 1) || (j > dimension))
-            throw new java.lang.IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException("index out of bounds");
         int gridIndex = xyTo1D(i, j);
         return grid.connected(0, gridIndex);
     }
@@ -93,7 +95,7 @@ public class Percolation {
      **********************************************************************/
     private int xyTo1D(int i, int j) {
         if ((i < 1) || (i > dimension) || (j < 1) || (j > dimension))
-            throw new java.lang.IndexOutOfBoundsException();
+            throw new java.lang.IndexOutOfBoundsException("index out of bounds");
         return dimension * (i - 1) + (j - 1);
     }
 
