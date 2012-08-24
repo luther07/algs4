@@ -14,7 +14,7 @@
 public class Percolation {
     WeightedQuickUnionUF grid;  // grid of sites, PRIVATE
     int dimension;              // grid dimensions, PRIVATE
-    boolean[] isOpen;           // stores grid open/blocked values, PRIVATE
+    boolean[] siteStatus;       // stores grid open/blocked values, PRIVATE
     int count;                  // count of open sites?, PRIVATE
 
     /***********************************************************************
@@ -28,11 +28,11 @@ public class Percolation {
             throw new java.lang.IllegalArgumentException("index out of bounds");
         dimension     = N;
         grid          = new WeightedQuickUnionUF(dimension * dimension);
-        isOpen = new boolean[dimension * dimension];
+        siteStatus = new boolean[dimension * dimension];
 
         // initialize grid sites to blocked
         for (int i = 0; i < (dimension * dimension); i++) {
-            isOpen[i] = false;
+            siteStatus[i] = false;
         }
 
         // initialize virtual top
@@ -55,8 +55,8 @@ public class Percolation {
         if ((i < 1) || (i > dimension) || (j < 1) || (j > dimension))
             throw new java.lang.IndexOutOfBoundsException("index out of bounds");
         int gridIndex = xyTo1D(i, j);
-        if (!isOpen[gridIndex]) {
-            isOpen[gridIndex] = true;
+        if (!siteStatus[gridIndex]) {
+            siteStatus[gridIndex] = true;
             count++;
             connectToNeighbors(i, j);
         }
@@ -69,7 +69,7 @@ public class Percolation {
         if ((i < 1) || (i > dimension) || (j < 1) || (j > dimension))
             throw new java.lang.IndexOutOfBoundsException("index out of bounds");
         int gridIndex = xyTo1D(i, j);
-        return isOpen[gridIndex];
+        return siteStatus[gridIndex];
     }
 
     /**********************************************************************
