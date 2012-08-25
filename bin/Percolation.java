@@ -17,8 +17,8 @@ public class Percolation {
     private boolean[] siteStatus;      // open/blocked sites
 
     /***********************************************************************
-     * Class constructor method which sets all sites to blocked (false)
-     * and connects the sites in the virtual bottom to eachother
+     * Class constructor method which sets all sites to blocked (false),
+     * connects the sites in the virtual bottom to eachother,
      * and connects the sites in the virtual top to eachother. 
      ***********************************************************************/
     public Percolation(int N) { // create N-by-N grid, with all sites blocked
@@ -47,8 +47,7 @@ public class Percolation {
     }
 
     /*********************************************************************
-     * Method that opens a given site and connects to open neighbors,
-     * if the given site is not currently open.
+     * Method that opens a given site and connects to open neighbors.
      *********************************************************************/
     public void open(int i, int j) { // open site (row i, column j)
         if ((i < 1) || (i > dimension) || (j < 1) || (j > dimension))
@@ -88,7 +87,11 @@ public class Percolation {
      * Method that says whether the system currently percolates.
      **********************************************************************/
     public boolean percolates() {
-        return grid.connected((dimension * dimension) - 1, 0);
+        if (dimension == 1) {
+            return isOpen(1, 1);
+        } else {
+            return grid.connected((dimension * dimension) - 1, 0);
+        }
     }
 
     /**********************************************************************
