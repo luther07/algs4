@@ -12,10 +12,9 @@
  *************************************************************************/
 
 public class Percolation {
-    WeightedQuickUnionUF grid;  // grid of sites, PRIVATE
-    int dimension;              // grid dimensions, PRIVATE
-    boolean[] siteStatus;       // stores grid open/blocked values, PRIVATE
-    int count;                  // count of open sites?, PRIVATE
+    private WeightedQuickUnionUF grid; // grid of sites
+    private int dimension;             // grid dimensions
+    private boolean[] siteStatus;      // open/blocked sites
 
     /***********************************************************************
      * Class constructor method which sets all sites to blocked (false)
@@ -23,12 +22,12 @@ public class Percolation {
      * and connects the sites in the virtual top to eachother. 
      ***********************************************************************/
     public Percolation(int N) { // create N-by-N grid, with all sites blocked
-                                // takes time proportional to N^2
-        if (N <1)
+                                // What do we do if N equals 1?
+        if (N < 1)
             throw new java.lang.IllegalArgumentException("index out of bounds");
         dimension     = N;
         grid          = new WeightedQuickUnionUF(dimension * dimension);
-        siteStatus = new boolean[dimension * dimension];
+        siteStatus    = new boolean[dimension * dimension];
 
         // initialize grid sites to blocked
         for (int i = 0; i < (dimension * dimension); i++) {
@@ -41,9 +40,9 @@ public class Percolation {
         }
 
         // initialize virtual bottom
+        int lastRowFirstColumn = xyTo1D(dimension, 1); // variable simplifies formula
         for (int i = 1; i < dimension; i++) {
-            int lastRowFirstColumn = xyTo1D(dimension, 1);
-            grid.union(lastRowFirstColumn, lastRowFirstColumn + i);
+            grid.union(lastRowFirstColumn, lastRowFirstColumn + i); // ??
         }
     }
 
@@ -57,7 +56,6 @@ public class Percolation {
         int gridIndex = xyTo1D(i, j);
         if (!siteStatus[gridIndex]) {
             siteStatus[gridIndex] = true;
-            count++;
             connectToNeighbors(i, j);
         }
     }
@@ -79,7 +77,11 @@ public class Percolation {
         if ((i < 1) || (i > dimension) || (j < 1) || (j > dimension))
             throw new java.lang.IndexOutOfBoundsException("index out of bounds");
         int gridIndex = xyTo1D(i, j);
-        return grid.connected(0, gridIndex);
+        if (isOpen(i, j)) {
+            return grid.connected(0, gridIndex);
+        } else {
+            return false;
+        }
     }
 
     /**********************************************************************
@@ -90,18 +92,17 @@ public class Percolation {
     }
 
     /**********************************************************************
-     * Helper method that converts a site location from 2D (row,column)
-     * to a 1D index.
+     * Helper method: converts site location from (row,column) to a 1D index.
      **********************************************************************/
     private int xyTo1D(int i, int j) {
         if ((i < 1) || (i > dimension) || (j < 1) || (j > dimension))
             throw new java.lang.IndexOutOfBoundsException("index out of bounds");
-        return dimension * (i - 1) + (j - 1);
+        return dimension*(i - 1) + (j-1);
     }
 
-   /************************************************************************
-    * Helper method that connects (row i, column j) to all open neighbors.
-    ************************************************************************/
+    /************************************************************************
+     * Helper method that connects (row i, column j) to all open neighbors.
+     ************************************************************************/
     private void connectToNeighbors(int row, int column) {
         if ((row < 1) || (row > dimension) || (column < 1) || (column > dimension))
             throw new java.lang.IndexOutOfBoundsException("index out of bounds");

@@ -1,7 +1,7 @@
 /*-------------------------------------------------------------------------
  * Author:        Mark Johnson
  * Written:       8/22/2012
- * Last Updated:  8/22/2012
+ * Last Updated:  8/24/2012
  *
  * Compilation:   javac PercolationStats.java
  * Execution:     java PercolationStats
@@ -14,11 +14,12 @@
 
 public class PercolationStats {
 
-    static int[] tableOfCounts; // PRIVATE, SHOULD THIS BE STATIC? store thresholds
-    int randomFirst, randomSecond; // PRIVATE two random numbers
-    Percolation experiment; // PRIVATE experiment object
-    int T; // PRIVATE, bad naming! number of repititions
-    int N; // PRIVATE, bad naming! dimension of grid
+    private int[] tableOfCounts;           // store thresholds
+    private int randomFirst, randomSecond; // two random numbers
+    private Percolation experiment;        // experiment object
+    private int numberOfSimulations;       // number of repititions
+    private int dimension;                 // dimension of grid
+    private int threshold;                 // running percolation threshold
 
     /*******************************************************************
      * Initializes and runs each experiment, populating a table of 
@@ -27,56 +28,66 @@ public class PercolationStats {
     public PercolationStats(int N, int T) {
         if ((N <= 0) || (T <= 0))
             throw new java.lang.IllegalArgumentException("index out of bounds");
-
-        this.N = N; // ? why
-        this.T = T; // ? why
-        tableOfCounts = new int[T];
-
-        for (int i = 1; i <= T; i++) {
-            experiment = new Percolation(N);
+        dimension = N;
+        numberOfSimulations = T;
+        tableOfCounts = new int[numberOfSimulations];
+        
+        for (int i = 1; i <= numberOfSimulations; i++) {
+            experiment = new Percolation(dimension);
+            threshold = 0;
 
             while (!experiment.percolates()) {
-                randomFirst = StdRandom.uniform(1, N + 1);
-                randomSecond = StdRandom.uniform(1, N + 1);
+                randomFirst = StdRandom.uniform(1, dimension + 1);
+                randomSecond = StdRandom.uniform(1, dimension + 1);
 
                 if (!experiment.isOpen(randomFirst, randomSecond)) {
                     experiment.open(randomFirst, randomSecond);
+                    threshold++;
                 }
             }
-
-            tableOfCounts[i-1] = experiment.count;
+            tableOfCounts[i-1] = threshold;
         }
+        
     }
 
     /***************************************************************************
      * Returns the mean from the table of percolation thresholds
+     * Mean is a function of tableOfCounts and gridSize.
+     * Array tableOfCounts depends on variable threshold.
+     * Variable gridSize is a function of dimension.
+     * Variable dimension is safe.
      ***************************************************************************/
     public double mean() {
-        double gridSize = ((double) (N * N));
+        double gridSize = ((double) (dimension * dimension));
         return (StdStats.mean(tableOfCounts) / gridSize);
     }
 
     /****************************************************************************
-     * Returns the sample standard deviation from the table of percolation thresholds.
+     * Returns the sample standard deviation from the thresholds store.
+     * Standard deviation is a function of tableOfCounts and gridSize.
+     * Array tableOfCounts depends on variable threshold.
+     * Variable gridSize is a function of dimension.
+     * Variable dimension is safe.
      ****************************************************************************/
     public double stddev() {
-        double gridSize = ((double) (N * N));
+        double gridSize = ((double) (dimension * dimension));
         return (StdStats.stddev(tableOfCounts) / gridSize);
     }
 
     public static void main(String[] args) {
-                                             // You do need to deal with N = 1
-                                             // If T equals 1, return Double.NaN
-        int N = Integer.parseInt(args[0]); // specifies grid size
-        int T = Integer.parseInt(args[1]); // how many experiments
-        int randomFirst, randomSecond;
-        double lowerConfidence, upperConfidence; // lower and upper confidence intervals
+        int N = Integer.parseInt(args[0]);       // grid size
+        int T = Integer.parseInt(args[1]);       // number of simulations 
+        int randomFirst, randomSecond;           // two random numbers
+        double lowerConfidence, upperConfidence; // confidence intervals
 
-        PercolationStats myStats = new PercolationStats(N, T);
-        StdOut.println("mean\t\t\t" + "= " + myStats.mean());
-        StdOut.println("stddev\t\t\t" + "= " + myStats.stddev());
-        lowerConfidence = myStats.mean() - ((1.96 * myStats.stddev())/Math.sqrt((double) T));
-        upperConfidence = myStats.mean() + ((1.96 * myStats.stddev())/Math.sqrt((double) T));
-        StdOut.println("95% confident interval = " + lowerConfidence + ", " + upperConfidence);
+        PercolationStats sample = new PercolationStats(N, T);
+        StdOut.println("mean\t\t\t" + "= " + sample.mean());
+        StdOut.println("stddev\t\t\t" + "= " + sample.stddev());
+        lowerConfidence = 
+            sample.mean() - ((1.96 * sample.stddev())/Math.sqrt((double) T));
+        upperConfidence = 
+            sample.mean() + ((1.96 * sample.stddev())/Math.sqrt((double) T));
+        StdOut.print("95% confidence interval =");
+        StdOut.print(" " + lowerConfidence + ", " + upperConfidence + "\n");
     }
 }
