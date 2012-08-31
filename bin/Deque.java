@@ -74,14 +74,14 @@ public class Deque<Item> implements Iterable<Item> {
     public static void main(String[] args) {
         StdOut.println("Hello, world!");
 
-        // Test Deque constructor
+        // Test Deque constructor, test one thing, is the object not null
         StdOut.print("Test Deque constructor: ");
         Deque<String> test1Deque = new Deque<String>();
-        if (test1Deque.size() == 0) {
+        if (test1Deque != null) {
             StdOut.println("passed");
         }
 
-        // Test addFirst
+        // Test addFirst, test one thing
         StdOut.print("Test Deque addFirst method: ");
         Deque<String> test2Deque = new Deque<String>();
         test2Deque.addFirst("Hello");
