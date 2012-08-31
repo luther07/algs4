@@ -25,10 +25,9 @@ public class Deque<Item> implements Iterable<Item> {
     public void addFirst(Item item) {
         // returns void, should compile
         Node newNode = new Node();
-        newNode = first;
-        first.item = item;
-        first.next = oldFirst;
-        size++;
+        newNode.item = item;
+        newNode.next = first;
+        first = newNode;
     }
 
     public void addLast(Item item) {
@@ -74,18 +73,24 @@ public class Deque<Item> implements Iterable<Item> {
     public static void main(String[] args) {
         StdOut.println("Hello, world!");
 
-        // Test Deque constructor, test one thing, is the object not null
-        StdOut.print("Test Deque constructor: ");
+        // Test Deque constructor, object returned not equal null
+        StdOut.print("Deque constructed object not null: ");
         Deque<String> test1Deque = new Deque<String>();
         if (test1Deque != null) {
+            StdOut.println("passed");
+        }
+        // Test Deque constructor, object returned has size 0
+        StdOut.print("Deque constructed object is size 0");
+        Deque<String> test2Deque = new Deque<String>();
+        if (test2Deque.size() == 0) {
             StdOut.println("passed");
         }
 
         // Test addFirst, test one thing
         StdOut.print("Test Deque addFirst method: ");
-        Deque<String> test2Deque = new Deque<String>();
-        test2Deque.addFirst("Hello");
-        if ((test2Deque.size() == 1) && (!test2Deque.isEmpty())) {
+        Deque<String> test3Deque = new Deque<String>();
+        test3Deque.addFirst("Hello");
+        if (test3Deque != null) {
             StdOut.println("passed");
         }
     }
