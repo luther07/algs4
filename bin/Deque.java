@@ -30,20 +30,24 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     public void addFirst(Item item) {
-        // returns void, should compile
         Node newNode = new Node();
         newNode.item = item;
-        newNode.next = first;
-        first = newNode;
+        newNode.next = this.first;
+        this.first = newNode;
+        if (this.size() == 0) {
+            this.last = newNode;
+        }
         size++;
     }
 
     public void addLast(Item item) {
-        // returns void, should compile
         Node newNode = new Node();
         newNode.item = item;
-        newNode.next = last;
-        last = newNode;
+        newNode.next = null;
+        this.last = newNode;
+        if (this.size() == 0) {
+            this.first = newNode;
+        }
         size++;
     }
 
