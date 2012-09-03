@@ -13,6 +13,7 @@ import java.util.Iterator;
 
 public class Deque<Item> implements Iterable<Item> {
     private Node first = null;
+    private Node last = null;
     private int size = 0;
 
     private class Node {
@@ -44,6 +45,11 @@ public class Deque<Item> implements Iterable<Item> {
 
     public void addLast(Item item) {
         // returns void, should compile
+        Node newNode = new Node();
+        newNode.item = item;
+        newNode.next = last;
+        last = newNode;
+        size++;
     }
 
     public Item removeFirst() {
@@ -101,7 +107,7 @@ public class Deque<Item> implements Iterable<Item> {
         // Test addFirst, test one thing
         StdOut.print("Test addFirst method: ");
         Deque<String> test3Deque = new Deque<String>();
-        test3Deque.addFirst("Hello");
+        test3Deque.addFirst("add at the start");
         if (test3Deque.size() == 1) {
             StdOut.println("\t\tpassed");
         }
@@ -116,6 +122,7 @@ public class Deque<Item> implements Iterable<Item> {
         // Test addLast, test one thing
         StdOut.print("Test addFirst method: ");
         Deque<String> test5Deque = new Deque<String>();
+        test5Deque.addLast("add at the end");
         if (test5Deque.size() == 1) {
             StdOut.println("\t\tpassed");
         }
