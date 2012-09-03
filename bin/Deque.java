@@ -31,6 +31,9 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     public void addFirst(Item item) {
+        if (item == null) {
+            throw new java.lang.NullPointerException();
+        }
         Node newNode = new Node();
         newNode.item = item;
         newNode.next = first;
@@ -119,14 +122,24 @@ public class Deque<Item> implements Iterable<Item> {
         Deque<String> test3Deque = new Deque<String>();
         test3Deque.addFirst("add at the start");
         if (test3Deque.size() == 1) {
-            StdOut.println("\t\tpassed");
+            StdOut.println("\t\t\tpassed");
+        }
+
+        // Test addFirst, try to add a null item
+        StdOut.print("Test addFirst, try to add null item: ");
+        Deque<String> test8Deque = new Deque<String>();
+        String test = null;
+        try { 
+            test8Deque.addFirst(test);
+        } catch (java.lang.NullPointerException e) {
+            StdOut.println("\tpassed: exception caught");
         }
 
         // Test isEmpty, test if isEmpty is true on default object
         StdOut.print("Test isEmpty method: ");
         Deque<String> test4Deque = new Deque<String>();
         if (test4Deque.isEmpty() == true) {
-            StdOut.println("\t\tpassed");
+            StdOut.println("\t\t\tpassed");
         }
 
         // Test addLast, test size after method call
@@ -134,7 +147,7 @@ public class Deque<Item> implements Iterable<Item> {
         Deque<String> test5Deque = new Deque<String>();
         test5Deque.addLast("add at the end");
         if (test5Deque.size() == 1) {
-            StdOut.println("\t\tpassed");
+            StdOut.println("\t\t\tpassed");
         }
 
         // Test removeFirst, test item returned
@@ -153,5 +166,8 @@ public class Deque<Item> implements Iterable<Item> {
         if (test7Deque.size() == 0) {
             StdOut.println("\tpassed");
         }
+
+        // Test removeLast, test item returned
+        // Test removeLast, test size after removal
     }
 }
