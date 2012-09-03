@@ -79,6 +79,7 @@ public class Deque<Item> implements Iterable<Item> {
         }
         Item item = last.item;
         last = last.previous;
+        size--;
         return item;
     }
 
@@ -205,8 +206,27 @@ public class Deque<Item> implements Iterable<Item> {
         if (test12Deque.removeLast().equals("add at back")) {
             StdOut.println("passed");
         }
-        
 
         // Test removeLast, test size after removal
+        StdOut.print("Test removeLast, size: ");
+        Deque<String> test13Deque = new Deque<String>();
+        test13Deque.addFirst("add 1");
+        test13Deque.addFirst("add 2");
+        test13Deque.addFirst("add 3");
+        test13Deque.removeLast();
+        if (test13Deque.size() == 2) {
+            StdOut.println("passed");
+        }
+
+        // Test removeLast, test size after removal
+        StdOut.print("Test removeLast, size: ");
+        Deque<String> test14Deque = new Deque<String>();
+        test14Deque.addLast("add 1");
+        test14Deque.addLast("add 2");
+        test14Deque.addLast("add 3");
+        test14Deque.removeLast();
+        if (test14Deque.size() == 2) {
+            StdOut.println("passed");
+        }
     }
 }
