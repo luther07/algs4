@@ -112,5 +112,12 @@ public class Deque<Item> implements Iterable<Item> {
         if (test4Deque.isEmpty() == true) {
             StdOut.println("\t\tpassed");
         }
+
+        // Test addLast, test one thing
+        StdOut.print("Test addFirst method: ");
+        Deque<String> test5Deque = new Deque<String>();
+        if (test5Deque.size() == 1) {
+            StdOut.println("\t\tpassed");
+        }
     }
 }
