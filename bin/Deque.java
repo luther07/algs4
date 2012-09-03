@@ -84,13 +84,13 @@ public class Deque<Item> implements Iterable<Item> {
     public static void main(String[] args) {
         StdOut.println("Hello, world!");
 
-        // Test Deque constructor, object returned not equal null
+        // Constructor: test Deque default constructor
         StdOut.print("Deque constructed object not null: ");
         Deque<String> test1Deque = new Deque<String>();
         if (test1Deque != null) {
             StdOut.println("\tpassed");
         }
-        // Test Deque constructor, object returned has size 0
+        // Constructor: test Deque default constructor, object has size 0
         StdOut.print("Deque constructed object is size 0: ");
         Deque<String> test2Deque = new Deque<String>();
         if (test2Deque.size() == 0) {
@@ -98,15 +98,15 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         // Test addFirst, test one thing
-        StdOut.print("Test Deque addFirst method: ");
+        StdOut.print("Test addFirst method: ");
         Deque<String> test3Deque = new Deque<String>();
         test3Deque.addFirst("Hello");
-        if (test3Deque != null) {
+        if (test3Deque.size() == 1) {
             StdOut.println("\t\tpassed");
         }
 
         // Test isEmpty true after default construction, test one thing
-        StdOut.print("Test Deque isEmpty method: ");
+        StdOut.print("Test isEmpty method: ");
         Deque<String> test4Deque = new Deque<String>();
         if (test4Deque.isEmpty() == true) {
             StdOut.println("\t\tpassed");
