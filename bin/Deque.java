@@ -64,6 +64,9 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     public Item removeFirst() {
+        if (this.isEmpty()) {
+            throw new java.util.NoSuchElementException();
+        }
         Item item = first.item;
         first = first.next;
         size --;
@@ -71,7 +74,11 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     public Item removeLast() {
+        if (this.isEmpty()) {
+            throw new java.util.NoSuchElementException();
+        }
         Item item = last.item;
+        last = last.previous;
         return item;
     }
 
@@ -108,13 +115,13 @@ public class Deque<Item> implements Iterable<Item> {
         StdOut.print("Deque constructed object not null: ");
         Deque<String> test1Deque = new Deque<String>();
         if (test1Deque != null) {
-            StdOut.println("\tpassed");
+            StdOut.println("\t\tpassed");
         }
         // Constructor: test Deque default constructor, object has size 0
         StdOut.print("Deque constructed object is size 0: ");
         Deque<String> test2Deque = new Deque<String>();
         if (test2Deque.size() == 0) {
-            StdOut.println("\tpassed");
+            StdOut.println("\t\tpassed");
         }
 
         // Test addFirst, test one thing
@@ -122,7 +129,7 @@ public class Deque<Item> implements Iterable<Item> {
         Deque<String> test3Deque = new Deque<String>();
         test3Deque.addFirst("add at the start");
         if (test3Deque.size() == 1) {
-            StdOut.println("\t\t\tpassed");
+            StdOut.println("\t\t\t\tpassed");
         }
 
         // Test addFirst, try to add a null item
@@ -132,14 +139,14 @@ public class Deque<Item> implements Iterable<Item> {
         try { 
             test8Deque.addFirst(test);
         } catch (java.lang.NullPointerException e) {
-            StdOut.println("\tpassed: exception caught");
+            StdOut.println("\t\tpassed: exception caught");
         }
 
         // Test isEmpty, test if isEmpty is true on default object
         StdOut.print("Test isEmpty method: ");
         Deque<String> test4Deque = new Deque<String>();
         if (test4Deque.isEmpty() == true) {
-            StdOut.println("\t\t\tpassed");
+            StdOut.println("\t\t\t\tpassed");
         }
 
         // Test addLast, test size after method call
@@ -147,7 +154,7 @@ public class Deque<Item> implements Iterable<Item> {
         Deque<String> test5Deque = new Deque<String>();
         test5Deque.addLast("add at the end");
         if (test5Deque.size() == 1) {
-            StdOut.println("\t\t\tpassed");
+            StdOut.println("\t\t\t\tpassed");
         }
 
         // Test removeFirst, test item returned
@@ -155,7 +162,7 @@ public class Deque<Item> implements Iterable<Item> {
         Deque<String> test6Deque = new Deque<String>();
         test6Deque.addFirst("add one item");
         if (test6Deque.removeFirst().equals("add one item")) {
-            StdOut.println("passed");
+            StdOut.println("\tpassed");
 	}
 
         // Test removeFirst, test size after removal
@@ -164,10 +171,42 @@ public class Deque<Item> implements Iterable<Item> {
         test7Deque.addFirst("add one item");
         test7Deque.removeFirst();
         if (test7Deque.size() == 0) {
-            StdOut.println("\tpassed");
+            StdOut.println("\t\tpassed");
+        }
+
+        // Test removeFirst, can't remove from an empty Deque
+        StdOut.print("Test removeFirst, try remove from empty Deque: ");
+        Deque<String> test9Deque = new Deque<String>();
+        try {
+            test9Deque.removeFirst();
+	} catch (java.util.NoSuchElementException e) {
+            StdOut.println("passed: exception caught");
+        }
+
+        // Test removeLast, can't remove from an empty Deque
+        StdOut.print("Test removeLast, try remove from empty Deque: ");
+        Deque<String> test10Deque = new Deque<String>();
+        try {
+            test10Deque.removeLast();
+        } catch (java.util.NoSuchElementException e) {
+            StdOut.println("passed: exception caught");
         }
 
         // Test removeLast, test item returned
+        StdOut.print("Test reomveLast, item returned: ");
+        Deque<String> test11Deque = new Deque<String>();
+        test11Deque.addFirst("add at front");
+        if (test11Deque.removeLast().equals("add at front")) {
+            StdOut.println("passed");
+	}
+        StdOut.print("Test removeLast, item returned: ");
+        Deque<String> test12Deque = new Deque<String>();
+        test12Deque.addLast("add at back");
+        if (test12Deque.removeLast().equals("add at back")) {
+            StdOut.println("passed");
+        }
+        
+
         // Test removeLast, test size after removal
     }
 }
