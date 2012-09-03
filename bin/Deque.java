@@ -19,6 +19,7 @@ public class Deque<Item> implements Iterable<Item> {
     private class Node {
         Item item;
         Node next;
+        Node previous;
     }
 
     public boolean isEmpty() {
@@ -32,10 +33,14 @@ public class Deque<Item> implements Iterable<Item> {
     public void addFirst(Item item) {
         Node newNode = new Node();
         newNode.item = item;
-        newNode.next = this.first;
-        this.first = newNode;
+        newNode.next = first;
+        newNode.previous = null;
+        if (this.size() > 0) {
+            first.previous = newNode;
+        }
+        first = newNode;
         if (this.size() == 0) {
-            this.last = newNode;
+            last = newNode;
         }
         size++;
     }
@@ -44,20 +49,26 @@ public class Deque<Item> implements Iterable<Item> {
         Node newNode = new Node();
         newNode.item = item;
         newNode.next = null;
-        this.last = newNode;
+        newNode.previous = last;
+        if (this.size() > 0) {
+            last.next = newNode;
+        }
+        last = newNode;
         if (this.size() == 0) {
-            this.first = newNode;
+            first = newNode;
         }
         size++;
     }
 
     public Item removeFirst() {
         Item item = first.item;
+        first = first.next;
+        size --;
         return item;
     }
 
     public Item removeLast() {
-        Item item = first.item;
+        Item item = last.item;
         return item;
     }
 
@@ -119,11 +130,28 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         // Test addLast, test size after method call
-        StdOut.print("Test addFirst method: ");
+        StdOut.print("Test addLast method: ");
         Deque<String> test5Deque = new Deque<String>();
         test5Deque.addLast("add at the end");
         if (test5Deque.size() == 1) {
             StdOut.println("\t\tpassed");
+        }
+
+        // Test removeFirst, test item returned
+        StdOut.print("Test removeFirst method, value returned: ");
+        Deque<String> test6Deque = new Deque<String>();
+        test6Deque.addFirst("add one item");
+        if (test6Deque.removeFirst().equals("add one item")) {
+            StdOut.println("passed");
+	}
+
+        // Test removeFirst, test size after removal
+        StdOut.print("Test removeFirst method, size after: ");
+        Deque<String> test7Deque = new Deque<String>();
+        test7Deque.addFirst("add one item");
+        test7Deque.removeFirst();
+        if (test7Deque.size() == 0) {
+            StdOut.println("\tpassed");
         }
     }
 }
