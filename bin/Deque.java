@@ -39,6 +39,7 @@ public class Deque<Item> implements Iterable<Item> {
         newNode.item = item;
         newNode.next = first;
         first = newNode;
+        size++;
     }
 
     public void addLast(Item item) {
