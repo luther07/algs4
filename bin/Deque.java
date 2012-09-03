@@ -1,3 +1,14 @@
+/*-----------------------------------------------------------------------------
+ * Author:        Mark Johnson
+ * Written:       8/30/2012
+ * Last Updated:  9/3/2012
+ *
+ * Compilation:   javac Deque.java
+ * Execution:     java Deque
+ *
+ * Defines a Deque type, with specified operations.
+ *---------------------------------------------------------------------------*/
+
 import java.util.Iterator;
 
 public class Deque<Item> implements Iterable<Item> {
@@ -77,13 +88,13 @@ public class Deque<Item> implements Iterable<Item> {
         StdOut.print("Deque constructed object not null: ");
         Deque<String> test1Deque = new Deque<String>();
         if (test1Deque != null) {
-            StdOut.println("passed");
+            StdOut.println("\tpassed");
         }
         // Test Deque constructor, object returned has size 0
-        StdOut.print("Deque constructed object is size 0");
+        StdOut.print("Deque constructed object is size 0: ");
         Deque<String> test2Deque = new Deque<String>();
         if (test2Deque.size() == 0) {
-            StdOut.println("passed");
+            StdOut.println("\tpassed");
         }
 
         // Test addFirst, test one thing
@@ -91,7 +102,14 @@ public class Deque<Item> implements Iterable<Item> {
         Deque<String> test3Deque = new Deque<String>();
         test3Deque.addFirst("Hello");
         if (test3Deque != null) {
-            StdOut.println("passed");
+            StdOut.println("\t\tpassed");
+        }
+
+        // Test isEmpty true after default construction, test one thing
+        StdOut.print("Test Deque isEmpty method: ");
+        Deque<String> test4Deque = new Deque<String>();
+        if (test4Deque.isEmpty() == true) {
+            StdOut.println("\t\tpassed");
         }
     }
 }
