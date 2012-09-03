@@ -21,11 +21,6 @@ public class Deque<Item> implements Iterable<Item> {
         Node next;
     }
 
-    /*public Deque() {
-        // construct an empty Deque, constructor is provided by the compiler
-        first = null;
-	}*/
-
     public boolean isEmpty() {
         return (size == 0);
     }
@@ -112,14 +107,14 @@ public class Deque<Item> implements Iterable<Item> {
             StdOut.println("\t\tpassed");
         }
 
-        // Test isEmpty true after default construction, test one thing
+        // Test isEmpty, test if isEmpty is true on default object
         StdOut.print("Test isEmpty method: ");
         Deque<String> test4Deque = new Deque<String>();
         if (test4Deque.isEmpty() == true) {
             StdOut.println("\t\tpassed");
         }
 
-        // Test addLast, test one thing
+        // Test addLast, test size after method call
         StdOut.print("Test addFirst method: ");
         Deque<String> test5Deque = new Deque<String>();
         test5Deque.addLast("add at the end");
