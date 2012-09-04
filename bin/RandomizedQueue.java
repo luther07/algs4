@@ -91,4 +91,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new java.lang.UnsupportedOperationException();
         }
     }
+
+    public static void main(String[] args) {
+        StdOut.println("Hello, World!");
+    }
 }
