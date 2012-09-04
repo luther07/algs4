@@ -37,6 +37,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     /**************************************************************************
      * Method which adds an item to the collection.
+     * Complexity: constant amortized time required
      *************************************************************************/
     public void enqueue(Item item) {
         if (item == null) {
@@ -48,6 +49,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     /**************************************************************************
      * Method which returns and removes a random item from the collection.
+     * Item must be chosen uniformly random from all items in the collection.
+     * Complexity: constant amortized time required
      *************************************************************************/
     public Item dequeue() {
         if (this.isEmpty()) {
@@ -60,6 +63,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     /**************************************************************************
      * Method which returns a random item.
+     * Complexity: constant amortized time required
      *************************************************************************/
     public Item sample() {
         if (this.isEmpty()) {
@@ -94,5 +98,42 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     public static void main(String[] args) {
         StdOut.println("Hello, World!");
+
+        // Test RandomizedQueue constructor
+        StdOut.print("Test RandomizedQueue constructor: ");
+        RandomizedQueue<String> testRQueue1 = new RandomizedQueue<String>();
+        if (!testRQueue1.equals(null)) {
+            StdOut.println("passed");
+	} else {
+            StdOut.println("FAILED");
+        }
+
+        // Test exceptions 1
+        StdOut.print("Test exception 1: ");
+        RandomizedQueue<String> testRQueue2 = new RandomizedQueue<String>();
+        String test = null;
+        try {
+            testRQueue2.enqueue(test);
+        } catch (java.lang.NullPointerException e) {
+            StdOut.println("passed");
+        }
+
+        // Test exceptions 2
+        StdOut.print("Test exception 2: ");
+        RandomizedQueue<String> testRQueue3 = new RandomizedQueue<String>();
+        try {
+            testRQueue3.dequeue();
+        } catch (java.util.NoSuchElementException e) {
+            StdOut.println("passed");
+        }
+
+        // Test exceptions 3
+        StdOut.print("Test exception 3: ");
+        RandomizedQueue<String> testRQueue4 = new RandomizedQueue<String>();
+        try {
+            testRQueue4.sample();
+        } catch (java.util.NoSuchElementException e) {
+            StdOut.println("passed");
+        }
     }
 }
