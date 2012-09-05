@@ -6,7 +6,7 @@
  * Compilation:   javac RandomizedQueue.java
  * Execution:     java RandomizedQueue
  *
- * Defines a Deque type, with specified operations.
+ * Defines a RandomizedQueue type, with specified operations.
  *---------------------------------------------------------------------------*/
 
 import java.util.Iterator;
