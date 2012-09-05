@@ -47,6 +47,8 @@ public class Deque<Item> implements Iterable<Item> {
 
     /**************************************************************************
      * Method that adds an item to the front of the Deque.
+     * Each deque operation must work in constant worst-case time.
+     * Each deque should use space proportional to number of current items.
      *************************************************************************/
     public void addFirst(Item item) {
         if (item == null) {
@@ -68,6 +70,8 @@ public class Deque<Item> implements Iterable<Item> {
 
     /**************************************************************************
      * Method that adds an item to the back of the Deque.
+     * Each deque operation must work in constant worst-case time.
+     * Each deque should use space proportional to number of current items.
      *************************************************************************/
     public void addLast(Item item) {
         if (item == null) {
@@ -89,6 +93,8 @@ public class Deque<Item> implements Iterable<Item> {
 
     /**************************************************************************
      * Method that removes the item at the front of the Deque.
+     * Each deque operation must work in constant worst-case time.
+     * Each deque should use space proportional to number of current items.
      ********p*****************************************************************/
     public Item removeFirst() {
         if (this.isEmpty()) {
@@ -102,6 +108,8 @@ public class Deque<Item> implements Iterable<Item> {
 
     /**************************************************************************
      * Method that removes the item at the back of the Deque.
+     * Each deque operation must work in constant worst-case time.
+     * Each deque should use space proportional to number of current items.
      *************************************************************************/
     public Item removeLast() {
         if (this.isEmpty()) {
@@ -128,7 +136,8 @@ public class Deque<Item> implements Iterable<Item> {
 
         /********************************************************************** 
          * Method that returns the next item and increments the pointer.
-         * No changes necessary.
+         * Must work in constant worst-case time.
+         * Must use a constant amount of extra space per iterator.
          *********************************************************************/
         public Item next() {
             if (current == null) {
@@ -143,7 +152,8 @@ public class Deque<Item> implements Iterable<Item> {
 
         /*********************************************************************
          * Method that says whether or not there exists a next item.
-         * No changes necessary.
+         * Must work in constant worst-case time.
+         * Must use a constant amount of extra space per iterator.
          *********************************************************************/
         public boolean hasNext() {
             if (current == null) {

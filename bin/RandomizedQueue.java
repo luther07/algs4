@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------
  * Author:        Mark Johnson
  * Written:       9/4/2012
- * Last Updated:  9/4/2012
+ * Last Updated:  9/5/2012
  *
  * Compilation:   javac RandomizedQueue.java
  * Execution:     java RandomizedQueue
@@ -38,6 +38,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     /**************************************************************************
      * Method which adds an item to the collection.
      * Complexity: constant amortized time required
+     * Must use space proportional to current number of items.
      *************************************************************************/
     public void enqueue(Item item) {
         if (item == null) {
@@ -51,6 +52,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
      * Method which returns and removes a random item from the collection.
      * Item must be chosen uniformly random from all items in the collection.
      * Complexity: constant amortized time required
+     * Must use space proportional to current number of items.
      *************************************************************************/
     public Item dequeue() {
         if (this.isEmpty()) {
@@ -64,6 +66,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     /**************************************************************************
      * Method which returns a random item.
      * Complexity: constant amortized time required
+     * Must use space proportional to current number of items.
      *************************************************************************/
     public Item sample() {
         if (this.isEmpty()) {
@@ -81,7 +84,17 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return new RandomizedQueueIterator();
     }
 
+    /**************************************************************************
+     * Inner Iterator class.
+     * Iterator construction in time linear in the number of items.
+     * Operations next() and hasNext() in constant worst-case time.
+     * May use a linear amount of extra space per iterator.
+     * Each iterator must maintain its own random order.
+     *************************************************************************/
     private class RandomizedQueueIterator implements Iterator<Item> {
+
+        public RandomizedQueueIterator() {
+        }
 
         public Item next() {
             return null;
