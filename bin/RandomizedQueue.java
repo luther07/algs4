@@ -1,4 +1,4 @@
-/*----------------------------------p-------------------------------------------
+/*-----------------------------------------------------------------------------
  * Author:        Mark Johnson
  * Written:       9/4/2012
  * Last Updated:  9/5/2012
@@ -7,13 +7,24 @@
  * Execution:     java RandomizedQueue
  *
  * Defines a RandomizedQueue type, with specified operations.
+ *
+ * Any sequence of M randomized queue operations (starting from an empty queue)
+ * should take at most cM steps in the worst case, for some constant c.
+ *
+ * Additionally, your iterator implementation should support construction in
+ * time linear in the number of items and it should support operations next
+ * and hasNext in constant worst-case time; you may use a linear amount of
+ * extra memory per iterator.
+ *
+ * Challenge is to ensure that array resizing is infrequent.
+ * When the array is full, copy it into a array twice its size.
  *---------------------------------------------------------------------------*/
 
 import java.util.Iterator;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] randomQueue;
-    private int size;
+    private int N; // number of items in the queue
     private int first;
     private int last;
 
@@ -24,8 +35,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
      * Causes warning when compiling with -Xlint:unchecked.
      *************************************************************************/
     public RandomizedQueue() {
-        randomQueue = (Item[]) new Object[2];
-        size = 0;
+        randomQueue = (Item[]) new Object[1];
+        N = 0;
         first = 0;
         last = 0;
     }
@@ -35,7 +46,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
      * Is the queue empty?
      *************************************************************************/
     public boolean isEmpty() {
-        return size == 0;
+        return N == 0;
     }
 
     /**************************************************************************
@@ -43,7 +54,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
      * Return the number of items on the queue.
      *************************************************************************/
     public int size() {
-        return size;
+        return N;
     }
 
     /**************************************************************************
@@ -58,10 +69,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new java.lang.NullPointerException();
         }
 
-        // TODO : unimplemented
+        if (N == randomQueue.length) {
+            resize(2 * randomQueue.length);
+        }
+
         randomQueue[last] = item;
         last++;
-        size++;
+        N++;
     }
 
     /**************************************************************************
@@ -78,11 +92,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new java.util.NoSuchElementException();
         }
 
-        // TODO : unimplemented
 	Item removedItem = randomQueue[last-1];
 	 randomQueue[last-1] = null;
 	last--;
-	size--;
+	N--;
 	return removedItem;                
     }
 
@@ -109,6 +122,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
      *************************************************************************/
     public Iterator<Item> iterator() {
         return new RandomizedQueueIterator();
+    }
+
+    private void resize(int capacity) {
+        Item[] copy = (Item[]) new Object[capacity];
+        for (int i = 0; i < N; i++) {
+            copy[i] = randomQueue[i];
+        }
+        randomQueue = copy;
     }
 
     /**************************************************************************
@@ -201,7 +222,24 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         RandomizedQueue<String> testRQueue6 = new RandomizedQueue<String>();
         testRQueue6.enqueue("Test dequeue method");
         String testDeque = testRQueue6.dequeue();
-        if (testDeque.equals("Test dequeue method") && testRQueue6.size == 0) {
+        if (testDeque.equals("Test dequeue method") && testRQueue6.size() == 0) {
+            StdOut.println("passed");
+        } else {
+            StdOut.println("FAILED");
+        }
+
+        // Test enqueue, add 8 items
+        StdOut.print("Test enqueue, add 8: ");
+        RandomizedQueue<String> testRQueue7 = new RandomizedQueue<String>();
+        testRQueue7.enqueue("a");
+        testRQueue7.enqueue("b");
+        testRQueue7.enqueue("c");
+        testRQueue7.enqueue("d");
+        testRQueue7.enqueue("e");
+        testRQueue7.enqueue("f");
+        testRQueue7.enqueue("g");
+        testRQueue7.enqueue("h");
+        if (testRQueue7.size() == 8) {
             StdOut.println("passed");
         } else {
             StdOut.println("FAILED");
