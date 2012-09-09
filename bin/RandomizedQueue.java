@@ -79,13 +79,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         // TODO : unimplemented
-	//        Item removedItem = randomQueue[last-1];
-	//        randomQueue[last-1] = null;
-	//        last--;
-	//        size--;
-	//        return removedItem;
-        return null;
-        
+	Item removedItem = randomQueue[last-1];
+	 randomQueue[last-1] = null;
+	last--;
+	size--;
+	return removedItem;                
     }
 
     /**************************************************************************
