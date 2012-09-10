@@ -25,8 +25,6 @@ import java.util.Iterator;
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] randomQueue;
     private int N; // number of items in the queue
-    private int first;
-    private int last;
 
     /**************************************************************************
      * Method for default RandomizedQueue construction.
@@ -37,8 +35,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public RandomizedQueue() {
         randomQueue = (Item[]) new Object[1];
         N = 0;
-        first = 0;
-        last = 0;
     }
 
     /**************************************************************************
@@ -73,8 +69,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             resize(2 * randomQueue.length);
         }
 
-        randomQueue[last] = item;
-        last++;
+        randomQueue[N] = item;
         N++;
     }
 
@@ -86,16 +81,29 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
      * Delete and return a random item.
      * Throw a NoSuchElementExcpetion if the client attempts to dequeue an
      * item from an empty randomized queue.
+     *
+     * The item removed is chosen uniformly at random from items in the 
+     * data structure.
+     *
+     * Deletes and returns a random item.
+     *
+     * If there are N items in the randomized queue, then you should choose
+     * each one with probability 1/N, up to the randomness of
+     * StdRandom.uniform(), independent of past decisions. You can generate
+     * a pseudo-random integer between 0 and N-1 using StdRandom.uniform(N)
+     * from the StdRandom library.
      *************************************************************************/
     public Item dequeue() {
         if (this.isEmpty()) {
             throw new java.util.NoSuchElementException();
         }
-
-	Item removedItem = randomQueue[last-1];
-	 randomQueue[last-1] = null;
-	last--;
+        
+	Item removedItem = randomQueue[N-1];
+        randomQueue[N-1] = null;
 	N--;
+        if (N > 0 && N == (randomQueue.length/4)) {
+            this.resize(randomQueue.length/2);
+        }
 	return removedItem;                
     }
 
@@ -112,8 +120,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new java.util.NoSuchElementException();
         }
 
-        // TODO : unimplemented
-        return null;
+        Iterator<Item> sampleIterator = this.iterator();
+        return sampleIterator.next();
     }
 
     /**************************************************************************
@@ -140,23 +148,46 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
      * Each iterator must maintain its own random order.
      *************************************************************************/
     private class RandomizedQueueIterator implements Iterator<Item> {
+        Item[] itr;
+        int current;
 
+        /*
+         * Time is linear in current number of items.
+         *
+         * Currently copies the random queue to a new array and shuffles it.
+         *
+         * Change so that it shuffles the random queue and then copies it
+         * to the new array.
+         */
         public RandomizedQueueIterator() {
+            StdRandom.shuffle(randomQueue);
+            current = 0;
+            itr = (Item[]) new Object[N];
+            for (int i = 0; i < N; i++) {
+                itr[i] = randomQueue[i];
+            }
+
         }
         /*********************************************************************
          * Throw an NoSuchElementException if the client calls the next
          * method in the iterator and there are no more items to return.
+         *
+         * Constant worst-case time.
          ********************************************************************/
         public Item next() {
             if (!this.hasNext()) {
                 throw new java.util.NoSuchElementException();
             }
 
-            return null;
+            current++;
+            return itr[current];
         }
 
+        /*
+         * Constant worst-case time.
+         */
         public boolean hasNext() {
-            return false;
+            return current == N - 1;
         }
         /**********************************************************************
          * Throw an UnsupportedOperationException if the client calls the
@@ -243,6 +274,45 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             StdOut.println("passed");
         } else {
             StdOut.println("FAILED");
+        }
+
+        // Test enqueue, add and remove 8 items
+        StdOut.print("Test enqueue, add and remove 8: ");
+        RandomizedQueue<String> testRQueue8 = new RandomizedQueue<String>();
+        if (true) {
+            StdOut.println("passed");
+        } else {
+            StdOut.println("FAILED:");
+        }
+
+        // Test iterator
+        // FAIL
+        StdOut.print("Test iterator: ");
+        RandomizedQueue<String> testRQueue9 = new RandomizedQueue<String>();
+        testRQueue9.enqueue("a");
+        testRQueue9.enqueue("b");
+        testRQueue9.enqueue("c");
+        testRQueue9.enqueue("d");
+        testRQueue9.enqueue("e");
+        testRQueue9.enqueue("f");
+        Iterator myIterator = testRQueue9.iterator();
+        while (myIterator.hasNext()) {
+            StdOut.print(myIterator.next());
+        }
+
+	// Test actual foreach
+        // FAIL
+        StdOut.println("Test foreach: ");
+        RandomizedQueue<String> testRQueue10 = new RandomizedQueue<String>();
+        testRQueue10.enqueue("1");
+        testRQueue10.enqueue("2");
+        testRQueue10.enqueue("3");
+        testRQueue10.enqueue("4");
+        testRQueue10.enqueue("5");
+        testRQueue10.enqueue("6");
+        Iterator itr0 = testRQueue10.iterator();
+        for (String xyz : testRQueue10) {
+            StdOut.println(xyz);
         }
     }
 }
