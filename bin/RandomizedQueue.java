@@ -314,7 +314,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         testRQueue9.enqueue("e");
         testRQueue9.enqueue("f");
         Iterator myIterator = testRQueue9.iterator();
-        if (!(myIterator == null)) {
+        if (myIterator != null) {
             StdOut.println("passed");
         }
         
