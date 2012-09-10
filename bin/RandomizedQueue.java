@@ -148,22 +148,22 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
      * Each iterator must maintain its own random order.
      *************************************************************************/
     private class RandomizedQueueIterator implements Iterator<Item> {
-        Item[] itr;
-        int current;
+        Item[] itr;  // declare variable
+        int current; // declare variable
 
-        /*
+        /**********************************************************************
          * Time is linear in current number of items.
          *
          * Currently copies the random queue to a new array and shuffles it.
          *
          * Change so that it shuffles the random queue and then copies it
          * to the new array.
-         */
+         *********************************************************************/
         public RandomizedQueueIterator() {
-            StdRandom.shuffle(randomQueue);
-            current = 0;
-            itr = (Item[]) new Object[N];
-            for (int i = 0; i < N; i++) {
+            StdRandom.shuffle(randomQueue); // shuffle random queue
+            current = 0;                    // initialize current to 0
+            itr = (Item[]) new Object[N];   // initialize size of iterator
+            for (int i = 0; i < N; i++) {   // copy random queue to iterator
                 itr[i] = randomQueue[i];
             }
 
@@ -179,16 +179,17 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
                 throw new java.util.NoSuchElementException();
             }
 
-            current++;
-            return itr[current];
+            current++;           // increment current
+            return itr[current]; // return new current
         }
 
-        /*
+        /*********************************************************************
          * Constant worst-case time.
-         */
+         ********************************************************************/
         public boolean hasNext() {
-            return current == N - 1;
+            return (current < itr.length - 1); // is current equal last index
         }
+
         /**********************************************************************
          * Throw an UnsupportedOperationException if the client calls the
          * remove method in the iterator.
@@ -295,7 +296,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         testRQueue9.enqueue("d");
         testRQueue9.enqueue("e");
         testRQueue9.enqueue("f");
+        if (testRQueue9.size() == 6) {
+            StdOut.println("passed");
+        }
         Iterator myIterator = testRQueue9.iterator();
+        StdOut.print("Test iterator not null: ");
+        if (!(myIterator == null)) {
+            StdOut.println("passed");
+        }
         while (myIterator.hasNext()) {
             StdOut.print(myIterator.next());
         }
