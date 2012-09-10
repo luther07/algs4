@@ -140,13 +140,13 @@ public class Deque<Item> implements Iterable<Item> {
          * Must use a constant amount of extra space per iterator.
          *********************************************************************/
         public Item next() {
+            Node temp;
             if (current == null) {
                 return null;
-            } else if (current.next == null) {
-                return null;
             } else {
+                temp = current;
                 current = current.next;
-                return current.item;
+                return temp.item;
             }
         }
 
@@ -156,11 +156,7 @@ public class Deque<Item> implements Iterable<Item> {
          * Must use a constant amount of extra space per iterator.
          *********************************************************************/
         public boolean hasNext() {
-            if (current == null) {
-                return false;
-            } else {
-                return (current.next != null);
-            }
+            return current != null;
         }
 
         public void remove() {
