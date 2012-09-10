@@ -366,18 +366,18 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         // Test Iterator, foreach(), FAILING
-        //StdOut.print("Test foreach(): ");
-        //Deque<String> test19Deque = new Deque<String>();
-        //test19Deque.addFirst("add 1");
-        //test19Deque.addFirst("add 2");
-        //test19Deque.addFirst("add 3");
-        //test19Deque.addFirst("add 4");
-        //test19Deque.addFirst("add 5");
-        //Iterator itr5 = test19Deque.iterator();
-        //while (itr5.hasNext()) {
-        //    Object element = itr.next();
-        //    StdOut.println(element);
-        //}
+        StdOut.print("Test foreach(): ");
+        Deque<String> test19Deque = new Deque<String>();
+        test19Deque.addFirst("1");
+        test19Deque.addFirst("2");
+        test19Deque.addFirst("3");
+        test19Deque.addFirst("4");
+        test19Deque.addFirst("5");
+        test19Deque.addFirst("6");
+        Iterator itr5 = test19Deque.iterator();
+        while (itr5.hasNext()) {
+            StdOut.println(itr5.next());
+        }
 
         // Test Iterator on empty collection
         StdOut.print("Test Iterator basic operations: ");
@@ -402,6 +402,34 @@ public class Deque<Item> implements Iterable<Item> {
         // this equals 1 because each item is inserted in front
         if (itr7.next() == "1") {
             StdOut.print("Pass2\n");
+        }
+
+        // Test Iterator on collection with 6 items
+        StdOut.println("Test iterator with 6 items:");
+        Deque<String> test25Deque = new Deque<String>();
+        test25Deque.addFirst("1");
+        test25Deque.addFirst("2");
+        test25Deque.addFirst("3");
+        test25Deque.addFirst("4");
+        test25Deque.addFirst("5");
+        test25Deque.addFirst("6");
+        Iterator itr8 = test25Deque.iterator();
+        while (itr8.hasNext()) {
+            StdOut.println(itr8.next());
+        }
+
+        // Actual foreach
+        StdOut.println("Test foreach: ");
+        Deque<String> test26Deque = new Deque<String>();
+        test26Deque.addFirst("1");
+        test26Deque.addFirst("2");
+        test26Deque.addFirst("3");
+        test26Deque.addFirst("4");
+        test26Deque.addFirst("5");
+        test26Deque.addFirst("6");
+        Iterator itr9 = test26Deque.iterator();
+        for (String xyz : test26Deque) {
+            StdOut.println(xyz);
         }
     }
 }
