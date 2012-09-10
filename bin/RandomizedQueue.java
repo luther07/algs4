@@ -101,13 +101,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new java.util.NoSuchElementException();
         }
         
-	Item removedItem = randomQueue[N-1];
+        Item removedItem = randomQueue[N-1];
         randomQueue[N-1] = null;
-	N--;
+        N--;
         if (N > 0 && N == (randomQueue.length/4)) {
             this.resize(randomQueue.length/2);
         }
-	return removedItem;                
+        return removedItem;                
     }
 
     /**************************************************************************
@@ -117,6 +117,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
      * Return (but do not delete) a random item.
      * Throw a NoSuchElementException if the client attempts to sample an
      * item from an empty randomized queue.
+     *
+     * Test 10: Check randomness of sample() by enqueueing the integers 0
+     * through 9, then sampling 100000 times and counting the zeros.
      *************************************************************************/
     public Item sample() {
         if (this.isEmpty()) {
@@ -165,10 +168,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
          * Use custom shuffle method instead of StdRandom.shuffle.
          *********************************************************************/
         public RandomizedQueueIterator() {
-            shuffle(randomQueue, N); // shuffle random queue
-            current = -1;                             // initialize current to -1
-            itr = (Item[]) new Object[N];             // initialize size of iterator
-            for (int i = 0; i < N; i++) {             // copy random queue to iterator
+            shuffle(randomQueue, N);      // shuffle random queue
+            current = -1;                 // initialize current to -1
+            itr = (Item[]) new Object[N]; // initialize size of iterator
+            for (int i = 0; i < N; i++) { // copy random queue to iterator
                 itr[i] = randomQueue[i];
             }
 
@@ -207,7 +210,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
          * Need custom shuffle method.
          */
         private void shuffle(Item[] a, int numberItems) {
-            int N = a.length;
             for (int i = 1; i < numberItems; i++) {
                 int r = i + StdRandom.uniform(numberItems - i);
                 Item temp = a[i];
@@ -223,9 +225,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         // Test RandomizedQueue constructor
         StdOut.print("Test RandomizedQueue constructor: ");
         RandomizedQueue<String> testRQueue1 = new RandomizedQueue<String>();
-        if (!testRQueue1.equals(null)) {
+        if (testRQueue1 != null) {
             StdOut.println("passed");
-	} else {
+        } else {
             StdOut.println("FAILED");
         }
 
@@ -318,7 +320,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             StdOut.println("passed");
         }
         
-	// Test actual foreach
+        // Test actual foreach
         // FAIL
         StdOut.println("Test foreach: ");
         RandomizedQueue<String> testRQueue11 = new RandomizedQueue<String>();

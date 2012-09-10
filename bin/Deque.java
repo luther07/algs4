@@ -17,9 +17,9 @@ public class Deque<Item> implements Iterable<Item> {
     private int size;
 
     private class Node {
-        Item item;
-        Node next;
-        Node previous;
+        private Item item;
+        private Node next;
+        private Node previous;
     }
 
     /**************************************************************************
@@ -102,7 +102,7 @@ public class Deque<Item> implements Iterable<Item> {
         }
         Item item = first.item;
         first = first.next;
-        size --;
+        size--;
         return item;
     }
 
@@ -142,7 +142,7 @@ public class Deque<Item> implements Iterable<Item> {
         public Item next() {
             Node temp;
             if (current == null) {
-                return null;
+                throw new java.util.NoSuchElementException();
             } else {
                 temp = current;
                 current = current.next;
@@ -201,7 +201,7 @@ public class Deque<Item> implements Iterable<Item> {
         // Test isEmpty, test if isEmpty is true on default object
         StdOut.print("Test isEmpty method: ");
         Deque<String> test4Deque = new Deque<String>();
-        if (test4Deque.isEmpty() == true) {
+        if (test4Deque.isEmpty()) {
             StdOut.println("\t\t\t\tpassed");
         }
 
@@ -229,7 +229,7 @@ public class Deque<Item> implements Iterable<Item> {
         test6Deque.addFirst("add one item");
         if (test6Deque.removeFirst().equals("add one item")) {
             StdOut.println("\tpassed");
-	}
+        }
 
         // Test removeFirst, test size after removal
         StdOut.print("Test removeFirst method, size after: ");
@@ -245,7 +245,7 @@ public class Deque<Item> implements Iterable<Item> {
         Deque<String> test9Deque = new Deque<String>();
         try {
             test9Deque.removeFirst();
-	} catch (java.util.NoSuchElementException e) {
+        } catch (java.util.NoSuchElementException e) {
             StdOut.println("\tpassed: exception caught");
         }
 
@@ -264,7 +264,7 @@ public class Deque<Item> implements Iterable<Item> {
         test11Deque.addFirst("add at front");
         if (test11Deque.removeLast().equals("add at front")) {
             StdOut.println("\t\tpassed");
-	}
+        }
         StdOut.print("Test removeLast, item returned: ");
         Deque<String> test12Deque = new Deque<String>();
         test12Deque.addLast("add at back");
@@ -290,8 +290,8 @@ public class Deque<Item> implements Iterable<Item> {
         test23Deque.addFirst("add 2");
         test23Deque.addFirst("add 3");
         if (test23Deque.removeLast().equals("add 1")) {
-	    StdOut.println("\t\t\tpassed");
-	} else {
+            StdOut.println("\t\t\tpassed");
+        } else {
             StdOut.println("FAILED");
         }
 
@@ -303,7 +303,7 @@ public class Deque<Item> implements Iterable<Item> {
         test24Deque.addLast("add 3");
         if (test24Deque.removeFirst().equals("add 1")) {
             StdOut.println("\t\t\tpassed");
-	} else {
+        } else {
             StdOut.println("failed");
         }
 
@@ -326,7 +326,7 @@ public class Deque<Item> implements Iterable<Item> {
             StdOut.println("\t\t\t\tpassed");
         }
 
-        // Test Iterator, hasNext(), passing on Deque with 1 item, but FAILING empty Deque
+        // Test Iterator, hasNext()
         StdOut.print("Test hasNext(): ");
         Deque<String> test17Deque = new Deque<String>();
         test17Deque.addFirst("add 1");
@@ -379,9 +379,9 @@ public class Deque<Item> implements Iterable<Item> {
         StdOut.print("Test Iterator basic operations: ");
         Deque<String> test21Deque = new Deque<String>();
         Iterator itr6 = test21Deque.iterator();
-        if (itr6.hasNext() == false) {
+        if (!itr6.hasNext()) {
             StdOut.print("\t\tPass1");
-	}
+        }
         if (itr6.next() == null) {
             StdOut.print("Pass2\n");
         }
@@ -392,11 +392,11 @@ public class Deque<Item> implements Iterable<Item> {
         test22Deque.addFirst("1");
         test22Deque.addFirst("2");
         Iterator itr7 = test22Deque.iterator();
-        if (itr7.hasNext() == true) {
+        if (itr7.hasNext()) {
             StdOut.print("\t\tPass1");
         }
         // this equals 1 because each item is inserted in front
-        if (itr7.next() == "1") {
+        if (itr7.next().equals("1")) {
             StdOut.print("Pass2\n");
         }
 
