@@ -25,6 +25,7 @@ import java.util.Iterator;
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] randomQueue;
     private int N; // number of items in the queue
+    private boolean shuffled;
 
     /**************************************************************************
      * Method for default RandomizedQueue construction.
@@ -35,6 +36,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public RandomizedQueue() {
         randomQueue = (Item[]) new Object[1];
         N = 0;
+        shuffled = false;
     }
 
     /**************************************************************************
@@ -95,15 +97,23 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
      *
      * Method dequeue is not currently random.
      * Method dequeue could make use of iterator to introduce randomness.
+     *
+     * Randomness fails! What's the problem?
      *************************************************************************/
     public Item dequeue() {
-        if (this.isEmpty()) {
+
+        if (this.isEmpty()) {                // throw exception on isEmpty
             throw new java.util.NoSuchElementException();
+        }
+
+        if (!shuffled) {                     // if not shuffled, then shuffle
+            shuffle(randomQueue, N);
         }
         
         Item removedItem = randomQueue[N-1]; // reference to item to remove
         randomQueue[N-1] = null;             // set the array index to null
         N--;                                 // decrement size
+
         if (N > 0 && N == (randomQueue.length/4)) {
             this.resize(randomQueue.length/2);
         }
@@ -146,6 +156,22 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
         randomQueue = copy;
     }
+
+    /*
+     * Need custom shuffle method.
+     * Need to fix how index 0 doesn't move
+     */
+    private void shuffle(Item[] a, int numberItems) {
+        for (int i = 0; i < numberItems; i++) {
+            int r = i + StdRandom.uniform(numberItems - i);
+            Item temp = a[i];
+            a[i] = a[r];
+            a[r] = temp;
+        }
+
+        shuffled = true;
+    }
+
 
     /**************************************************************************
      * Inner Iterator class.
@@ -205,18 +231,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
          *********************************************************************/
         public void remove() {
             throw new java.lang.UnsupportedOperationException();
-        }
-
-        /*
-         * Need custom shuffle method.
-         */
-        private void shuffle(Item[] a, int numberItems) {
-            for (int i = 1; i < numberItems; i++) {
-                int r = i + StdRandom.uniform(numberItems - i);
-                Item temp = a[i];
-                a[i] = a[r];
-                a[r] = temp;                
-            }
         }
     }
 
@@ -335,5 +349,29 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         for (String xyz : testRQueue11) {
             StdOut.println(xyz);
         }
+
+        // Test for zero-find
+        StdOut.println("Test zero-find: ");
+        RandomizedQueue<Integer> testRQueue12 = new RandomizedQueue<Integer>();
+        testRQueue12.enqueue(0);
+        testRQueue12.enqueue(1);
+        testRQueue12.enqueue(2);
+        testRQueue12.enqueue(3);
+        testRQueue12.enqueue(4);
+        testRQueue12.enqueue(5);
+        testRQueue12.enqueue(6);
+        testRQueue12.enqueue(7);
+        testRQueue12.enqueue(8);
+        testRQueue12.enqueue(9);
+        StdOut.println("answer is: " + testRQueue12.dequeue());
+        StdOut.println("answer is: " + testRQueue12.dequeue());
+        StdOut.println("answer is: " + testRQueue12.dequeue());
+        StdOut.println("answer is: " + testRQueue12.dequeue());
+        StdOut.println("answer is: " + testRQueue12.dequeue());
+        StdOut.println("answer is: " + testRQueue12.dequeue());
+        StdOut.println("answer is: " + testRQueue12.dequeue());
+        StdOut.println("answer is: " + testRQueue12.dequeue());
+        StdOut.println("answer is: " + testRQueue12.dequeue());
+        StdOut.println("answer is: " + testRQueue12.dequeue());        
     }
 }
