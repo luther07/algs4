@@ -101,13 +101,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new java.util.NoSuchElementException();
         }
         
-        Item removedItem = randomQueue[N-1];
-        randomQueue[N-1] = null;
-        N--;
+        Item removedItem = randomQueue[N-1]; // reference to item to remove
+        randomQueue[N-1] = null;             // set the array index to null
+        N--;                                 // decrement size
         if (N > 0 && N == (randomQueue.length/4)) {
             this.resize(randomQueue.length/2);
         }
-        return removedItem;                
+        return removedItem;                  // return reference
     }
 
     /**************************************************************************
@@ -118,6 +118,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
      * Throw a NoSuchElementException if the client attempts to sample an
      * item from an empty randomized queue.
      *
+     * Return (but do not delete) a random item.
+     *
      * Test 10: Check randomness of sample() by enqueueing the integers 0
      * through 9, then sampling 100000 times and counting the zeros.
      *************************************************************************/
@@ -126,8 +128,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new java.util.NoSuchElementException();
         }
 
-        Iterator<Item> sampleIterator = this.iterator();
-        return sampleIterator.next();
+        return randomQueue[StdRandom.uniform(N)];
     }
 
     /**************************************************************************

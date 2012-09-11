@@ -95,21 +95,29 @@ public class Deque<Item> implements Iterable<Item> {
      * Method that removes the item at the front of the Deque.
      * Each deque operation must work in constant worst-case time.
      * Each deque should use space proportional to number of current items.
-     ********p*****************************************************************/
+     *
+     * Loitering.
+     *************************************************************************/
     public Item removeFirst() {
         if (this.isEmpty()) {
             throw new java.util.NoSuchElementException();
         }
-        Item item = first.item;
-        first = first.next;
-        size--;
-        return item;
+        // what happens when we remove the only item?
+        Node removedItem = first;      // reference to item to remove
+        first = first.next;            // update first
+        if (size > 1) {
+            first.previous = null;     // null previous, pointed to old first
+        }
+        size--;                        // decrement size
+	return removedItem.item;       // return reference
     }
 
     /**************************************************************************
      * Method that removes the item at the back of the Deque.
      * Each deque operation must work in constant worst-case time.
      * Each deque should use space proportional to number of current items.
+     *
+     * Loitering.
      *************************************************************************/
     public Item removeLast() {
         if (this.isEmpty()) {
@@ -117,6 +125,9 @@ public class Deque<Item> implements Iterable<Item> {
         }
         Item item = last.item;
         last = last.previous;
+        if (size > 1) {
+            last.next = null;
+        }
         size--;
         return item;
     }
@@ -339,17 +350,6 @@ public class Deque<Item> implements Iterable<Item> {
             StdOut.println("\t\t\t\tFAILED");
         }
 
-        // Test Iterator, next()
-        StdOut.print("Test next(): ");
-        Deque<String> test18Deque = new Deque<String>();
-        test18Deque.addFirst("add 1");
-        test18Deque.addFirst("add 2");
-        test18Deque.addFirst("add 3");
-        Iterator itr3 = test17Deque.iterator();
-        if (itr3.next().equals("add 2")) {
-            StdOut.println("\t\t\t\t\tpassed");
-        }
-
         // Test Iterator, test if remove throws exception
         StdOut.print("Test Iterator .remove(): ");
         Deque<String> test20Deque = new Deque<String>();
@@ -362,7 +362,7 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         // Test Iterator, foreach(), FAILING
-        StdOut.print("Test foreach(): ");
+        StdOut.print("Test foreach(): \n");
         Deque<String> test19Deque = new Deque<String>();
         test19Deque.addFirst("1");
         test19Deque.addFirst("2");
@@ -382,8 +382,10 @@ public class Deque<Item> implements Iterable<Item> {
         if (!itr6.hasNext()) {
             StdOut.print("\t\tPass1");
         }
-        if (itr6.next() == null) {
-            StdOut.print("Pass2\n");
+        try {
+            itr6.next();
+        } catch (java.util.NoSuchElementException e) {
+            StdOut.println("Pass2");
         }
 
         // Test Iterator on collection with 1 item
